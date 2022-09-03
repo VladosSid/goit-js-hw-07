@@ -21,12 +21,19 @@ boxEl.innerHTML = newEl;
 
 boxEl.addEventListener("click", (event) => {
   event.preventDefault();
-  const showEl = basicLightbox.create(`
-    <img src="${event.target.dataset.source}">
-`);
-  showEl.show();
+  // console.log(boxEl.childNodes);
 
-  document.addEventListener("keyup", () => {
-    showEl.close();
-  });
+  if (event.target.className === "gallery__image") {
+    const showEl = basicLightbox.create(`
+            <img src="${event.target.dataset.source}">
+        `);
+    showEl.show();
+
+    document.addEventListener("keyup", (event) => {
+      if (event.keyCode === 27) {
+        showEl.close();
+        document.removeEventListener("keyup", () => {});
+      }
+    });
+  }
 });
